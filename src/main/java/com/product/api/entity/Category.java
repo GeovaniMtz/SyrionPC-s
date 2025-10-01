@@ -1,12 +1,19 @@
-package com.product;
+package com.product.api.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Clase que representa una categoría dentro del sistema.
  * Cada categoría tiene un identificador único, un nombre,
  * un tag asociado y un status (1=activa, 0=eliminada).
  */
+@Entity
+@Table(name = "category")
 public class Category {
     /** Identificador único de la categoría (>=1). */
+    @Id
     private Integer category_id;
 
     /** Nombre de la categoría. */
