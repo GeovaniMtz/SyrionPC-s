@@ -1,7 +1,10 @@
 package com.product.api.exception;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -30,7 +33,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(ApiException.class)
     protected ResponseEntity<Object> handleApiException(ApiException ex, WebRequest request) {
-        
+
         ExceptionResponse responseBody = new ExceptionResponse(
                 LocalDateTime.now(),
                 ex.getStatus().value(),
@@ -40,6 +43,34 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         return new ResponseEntity<>(responseBody, responseBody.getError());
+    }
+
+    /**
+     * Maneja las excepciones de validación cuando los argumentos del método no son válidos.
+     * Se dispara cuando @Valid falla en un @RequestBody.
+     *
+     * @param ex      La excepción MethodArgumentNotValidException capturada.
+     * @param headers Los headers HTTP de la petición.
+     * @param status  El código de estado HTTP.
+     * @param request El contexto de la petición web actual.
+     * @return Un ResponseEntity con el error de validación (BAD_REQUEST).
+     */
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
+
+        ExceptionResponse response = new ExceptionResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST,
+                ex.getBindingResult().getFieldError().getDefaultMessage(),
+                ((ServletWebRequest) request).getRequest().getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -53,7 +84,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {
-        
+
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 
         ExceptionResponse responseBody = new ExceptionResponse(

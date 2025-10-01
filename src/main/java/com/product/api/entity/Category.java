@@ -1,8 +1,7 @@
 package com.product.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 /**
  * Clase que representa una categoría dentro del sistema.
@@ -12,17 +11,27 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "category")
 public class Category {
+
     /** Identificador único de la categoría (>=1). */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("category_id")
+    @Column(name = "category_id")
     private Integer category_id;
 
     /** Nombre de la categoría. */
+    @JsonProperty("category")
+    @Column(name = "category", nullable = false, length = 100)
     private String category;
 
     /** Etiqueta o tag que identifica la categoría. */
+    @JsonProperty("tag")
+    @Column(name = "tag", nullable = false, length = 50)
     private String tag;
 
     /** Estado de la categoría: 1 = activa, 0 = eliminada. */
+    @JsonProperty("status")
+    @Column(name = "status", nullable = false)
     private Integer status;
 
     // ===== Getters =====
