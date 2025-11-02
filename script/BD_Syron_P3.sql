@@ -15,10 +15,12 @@ CREATE UNIQUE INDEX ux_tag ON category(tag);
 
 INSERT INTO category (category, tag, status)
 VALUES
-  ('Electrónica', 'ELEC', 1),
-  ('Ropa', 'CLOT', 1),
-  ('Hogar', 'HOME', 1),
-  ('Deportes', 'SPORT', 0);
+
+  ('Procesadores Intel y AMD', 'cpu', 1),
+  ('Tarjetas Gráficas NVIDIA/AMD', 'gpu', 1),
+  ('Laptops', 'lap', 1),
+  ('Modems', 'md', 0);
+
 
 SELECT * FROM category;
 
