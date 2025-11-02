@@ -29,9 +29,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/error", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/info", "/actuator/health").permitAll()
+                                
+                                // Temporal
+                                .requestMatchers(HttpMethod.POST, "/category", "/product", "/product/{id}/image").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/product/{id}/image/{productImageId}").permitAll()
+                                
+                                
                                 .requestMatchers(HttpMethod.PUT).hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PATCH).hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.POST).hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE).hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.GET).permitAll()
                 )
                 .cors(cors -> cors.configurationSource(corsConfig))
