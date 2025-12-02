@@ -1,7 +1,5 @@
 package com.product.config.security;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,10 +28,8 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers("/error", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/info", "/actuator/health").permitAll()
                                 
-                                // Temporal
-                                .requestMatchers(HttpMethod.POST, "/category", "/product", "/product/{id}/image").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/product/{id}/image/{productImageId}").permitAll()
-                                
+                                .requestMatchers(HttpMethod.POST, "/category", "/product", "/product/{id}/image").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/product/{id}/image/{productImageId}").hasAuthority("ADMIN")
                                 
                                 .requestMatchers(HttpMethod.PUT).hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PATCH).hasAuthority("ADMIN")
