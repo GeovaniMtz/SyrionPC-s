@@ -30,12 +30,15 @@ public class SecurityConfig {
                                 
                                 .requestMatchers(HttpMethod.POST, "/category", "/product", "/product/{id}/image").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/product/{id}/image/{productImageId}").hasAuthority("ADMIN")
-                                
-                                .requestMatchers(HttpMethod.PUT).hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/product/{id}/stock/{stock}").hasAnyAuthority("ADMIN", "CUSTOMER")
                                 .requestMatchers(HttpMethod.PATCH).hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.POST).hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE).hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.GET).permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/product/**").hasAuthority("ADMIN")
+
+
+
                 )
                 .cors(cors -> cors.configurationSource(corsConfig))
                 .httpBasic(Customizer.withDefaults())

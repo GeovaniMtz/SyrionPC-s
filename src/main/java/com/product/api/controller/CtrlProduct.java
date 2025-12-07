@@ -67,4 +67,13 @@ public class CtrlProduct {
 		return svc.disableProduct(id);
 	}
 
+    @PutMapping("/{id}/stock/{stock}")
+    @Operation(summary = "Actualizar stock", description = "Actualiza solo el stock de un producto (Permitido para compras)")
+    public ResponseEntity<ApiResponse> updateProductStock(
+            @PathVariable("id") Integer id,
+            @PathVariable("stock") Integer stock) {
+        // Necesitas crear este método en tu servicio
+        return svc.updateProductStock(id, stock);
+    }
+
 }

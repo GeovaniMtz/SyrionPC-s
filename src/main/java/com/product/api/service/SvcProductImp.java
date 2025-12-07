@@ -161,4 +161,18 @@ public class SvcProductImp implements SvcProduct{
         return optionalProduct.get();
     }
 
+    @Override
+    public ResponseEntity<ApiResponse> updateProductStock(Integer id, Integer stock) {
+        Product product = repo.findById(id).orElse(null);
+        if (product == null) {
+            return new ResponseEntity<>(new ApiResponse("Producto no encontrado"), HttpStatus.NOT_FOUND);
+        }
+
+        // Solo actualizamos el stock
+        product.setStock(stock);
+        repo.save(product);
+
+        return new ResponseEntity<>(new ApiResponse("Stock actualizado"), HttpStatus.OK);
+    }
+
 }

@@ -17,5 +17,6 @@ public interface SvcProduct {
 	public ResponseEntity<ApiResponse> updateProduct(Integer id, DtoProductIn in);
 	public ResponseEntity<ApiResponse> enableProduct(Integer id);
 	public ResponseEntity<ApiResponse> disableProduct(Integer id);
+    public ResponseEntity<ApiResponse> updateProductStock(Integer id, Integer stock);
 
 }
